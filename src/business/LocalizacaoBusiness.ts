@@ -15,7 +15,7 @@ export class LocalizacaoBusiness {
         const exame_id = Number(exame_param);
         const exame = await this.localizacaoData.pegarExamePorID(exame_id);
 
-        if (!exame) {
+        if (!exame || Number.isInteger(exame)) {
           responseBuilder.adicionarCodigoStatus(
             responseBuilder.STATUS_CODE_VAZIO,
           );

@@ -5,9 +5,10 @@ import { exame } from "./types/tiposComuns";
 export class ResponseBuilder {
   public readonly STATUS_CODE_OK: number = 200;
   public readonly STATUS_CODE_VAZIO: number = 404;
-  public readonly STATUS_CODE_BAD_REQUEST = 400;
-  public readonly STATUS_CODE_SERVER_ERROR = 500;
-  public readonly STATUS_CODE_NAO_AUTORIZADO = 401;
+  public readonly STATUS_CODE_BAD_REQUEST: number = 400;
+  public readonly STATUS_CODE_SERVER_ERROR: number = 500;
+  public readonly STATUS_CODE_NAO_AUTORIZADO: number = 401;
+  public readonly STATUS_CODE_ERRO_SEMANTICO: number = 422;
 
   private retorno: localizacaoAPIretorno = {};
 
