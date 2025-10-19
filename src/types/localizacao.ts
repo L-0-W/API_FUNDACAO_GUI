@@ -2,7 +2,7 @@ import { exame, referencias, setor } from "./tiposComuns";
 
 export interface localizacaoAPIretorno {
   codigoStatus?: number;
-  mensagemErro?: string;
+  mensagem?: string;
   existe?: boolean;
   exames?: exame[];
   setor?: setor[];

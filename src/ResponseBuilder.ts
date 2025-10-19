@@ -6,6 +6,8 @@ export class ResponseBuilder {
   public readonly STATUS_CODE_OK: number = 200;
   public readonly STATUS_CODE_VAZIO: number = 404;
   public readonly STATUS_CODE_BAD_REQUEST = 400;
+  public readonly STATUS_CODE_SERVER_ERROR = 500;
+  public readonly STATUS_CODE_NAO_AUTORIZADO = 401;
 
   private retorno: localizacaoAPIretorno = {};
 
@@ -28,12 +30,12 @@ export class ResponseBuilder {
   }
 
   public adicionarMensagem(msg: string) {
-    this.retorno.mensagemErro = msg;
+    this.retorno.mensagem = msg;
 
     return;
   }
 
   public build(res: Response) {
-    res.status(this.retorno.codigoStatus || 500).send(this.retorno);
+    res.status(this.retorno.codigoStatus || 500).json(this.retorno);
   }
 }

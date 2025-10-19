@@ -20,7 +20,7 @@ export class LocalizacaoBusiness {
             responseBuilder.STATUS_CODE_VAZIO,
           );
 
-          const msg_err = `Erro ao buscar exame de ${exame_id}, resposta retornou vazio.`;
+          const msg_err = `Erro ao buscar exame de 'ID': ${exame_id}, resposta retornou vazio.`;
           responseBuilder.adicionarMensagem(msg_err);
           return;
         }
@@ -35,12 +35,12 @@ export class LocalizacaoBusiness {
         const exame_str: string = exame_param.toString();
         const exame = await this.localizacaoData.pegarExamePorNome(exame_str);
 
-        if (!exame || exame.length == 0) {
+        if (exame && exame.length == 0) {
           responseBuilder.adicionarCodigoStatus(
             responseBuilder.STATUS_CODE_VAZIO,
           );
 
-          const msg_err = `Erro ao buscar exame de ${exame_str}, resposta retornou vazio.`;
+          const msg_err = `Erro ao buscar exame com 'NOME': ${exame_str}, resposta retornou vazio.`;
           responseBuilder.adicionarMensagem(msg_err);
           return;
         }

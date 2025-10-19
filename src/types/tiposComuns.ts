@@ -1,3 +1,10 @@
+export interface admin {
+  id: number;
+  nome: string;
+  email: string;
+  senha: string;
+}
+
 export interface exame {
   nome: string;
   descricao: string;

@@ -6,7 +6,7 @@ export class LocalizacaoData {
     try {
       const exame = await connection
         .select("nome", "descricao")
-        .from<exame>("exame")
+        .from<exame>("exames")
         .where("id", id)
         .first();
 
@@ -16,11 +16,11 @@ export class LocalizacaoData {
     }
   };
 
-  pegarExamePorNome = async (nome: string): Promise<exame[] | undefined> => {
+  pegarExamePorNome = async (nome: string): Promise<exame[]> => {
     try {
       const exame = await connection
         .select("nome", "descricao")
-        .from<exame>("exame")
+        .from<exame>("exames")
         .where("nome", nome);
 
       return exame;
