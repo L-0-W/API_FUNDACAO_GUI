@@ -1,15 +1,12 @@
-FROM node:24
+FROM node:24-alpine
 
 WORKDIR /app
-
 COPY package*.json ./
-
-RUN npm install
-
+RUN npm install --production && \
+    npm run build && \
+    npm cache clean --force && \
+    rm- -rf /root/.npm && \
+    rm -rf node_modules
 COPY . .
-
-ENV PORT=9000
-
-EXPOSE 9000
-
+EXPOSE 3003
 CMD ["npm", "run", "dev"]

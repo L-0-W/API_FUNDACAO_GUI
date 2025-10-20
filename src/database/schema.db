@@ -1,0 +1,89 @@
+CREATE TABLE locais (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,            -- ex: "Laboratório Particular", "Auditório"
+    tipo TEXT NOT NULL,             -- ex: "setor", "sala", "recepcao
+    pai_id INTEGER REFERENCES bloco(id) NOT NULL,  -- ex: "tipo: setor, pai_id: 1; locais where id == 1 = bloco A"
+    andar TEXT NOT NULL,                     -- ex: "Térreo", "1º Andar", "Subsolo"
+    coordenada TEXT NOT NULL,                -- ex: "C-T-04" → código interno para mapas
+    descricao TEXT,
+    ativo BOOLEAN DEFAULT 1,
+  	evento_id INTEGER REFERENCES eventos(id)
+);
+
+
+CREATE TABLE bloco (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    coordenada TEXT NOT NULL,
+    descricao TEXT
+);
+
+CREATE TABLE referencias_locais (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+  	local_id INTEGER REFERENCES locais(id),
+    imagem TEXT,
+ 	descricao TEXT NOT NULL
+);
+
+CREATE TABLE referencias_bloco (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+    bloco_id INTEGER REFERENCES bloco(id),
+    imagem TEXT,
+    descricao TEXT NOT NULL
+);
+
+CREATE TABLE noticias (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+  	titulo TEXT NOT NULL,
+  	resumo TEXT NOT NULL,
+    conteudo TEXT NOT NULL,
+  	data_publicacao TIMESTAMP NOT NULL,
+  	local_id INTEGER REFERENCES locais(id),
+	tags TEXT NOT NULL, -- JSON STRING, SQLITE3 CONSEGUE TRABALHAR COM JSON (json_extract, json_remove, json_replace, etc..),
+  	imagens TEXT NOT NULL -- JSON STRING, SQLITE3 CONSEGUE TRABALHAR COM JSON (json_extract, json_remove, json_replace, etc..),
+);
+
+CREATE TABLE vagas (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+  	cargo TEXT NOT NULL,
+  	resumo TEXT NOT NULL,
+  	descricao TEXT,
+  	requisitos TEXT, -- JSON STRING, SQLITE3 CONSEGUE TRABALHAR COM JSON (json_extract, json_remove, json_replace, etc..),
+  	data_publicacao TIMESTAMP NOT NULL,
+  	data_encerramento TIMESTAMP NOT NULL,
+  	status TEXT CHECK(status IN ('ativa', 'encerrada')) NOT NULL DEFAULT 'ativa',
+  	local_id INTEGER REFERENCES locais(id) NOT NULL,
+  	como_se_inscrever TEXT NOT NULL,
+  	tipo_vinculo TEXT
+);
+
+CREATE TABLE eventos (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    descricao TEXT,
+  	data_inicio TIMESTAMP NOT NULL,
+    data_fim TIMESTAMP NOT NULL,
+    status TEXT CHECK(status in ('Futuro', 'Em_Andamento', 'Encerrado')) NOT NULL,
+    publico_alvo TEXT
+);
+
+CREATE TABLE admins (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, senha TEXT NOT NULL, email TEXT NOT NULL UNIQUE);
+
+CREATE TABLE informacoes_gerais (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+  	chave TEXT NOT NULL UNIQUE,
+  	valor TEXT NOT NULL
+);
+
+CREATE TABLE informacoes_institucionais (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+  	tipo TEXT NOT NULL UNIQUE,
+  	conteudo TEXT NOT NULL
+);
+
+CREATE TABLE exames (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    local_id INTEGER REFERENCES locais(id)
+);
