@@ -1,8 +1,8 @@
 import { Response } from "express";
-import { localizacaoAPIretorno } from "./types/localizacao";
+import { apiRetorno } from "./types/tiposRetorno";
 import { exame } from "./types/tiposComuns";
 
-export class ResponseBuilder {
+export class ResponseBuilder<T> {
   public readonly STATUS_CODE_OK: number = 200;
   public readonly STATUS_CODE_VAZIO: number = 404;
   public readonly STATUS_CODE_BAD_REQUEST: number = 400;
@@ -10,33 +10,25 @@ export class ResponseBuilder {
   public readonly STATUS_CODE_NAO_AUTORIZADO: number = 401;
   public readonly STATUS_CODE_ERRO_SEMANTICO: number = 422;
 
-  private retorno: localizacaoAPIretorno = {};
-
-  public adicionarExames(exames: exame[]) {
-    this.retorno.exames = exames;
-
-    return;
-  }
-
-  public adicionarExame(exames: exame) {
-    this.retorno.exames = [exames];
-
-    return;
-  }
+  private retorno: apiRetorno<T> = {};
 
   public adicionarCodigoStatus(status: number) {
     this.retorno.codigoStatus = status;
+    return;
+  }
 
+  public adicionarBody(body: T) {
+    this.retorno.body = body;
     return;
   }
 
   public adicionarMensagem(msg: string) {
     this.retorno.mensagem = msg;
-
     return;
   }
 
   public build(res: Response) {
+    // ver o tamanho da array de exames/noticias para preencher total.
     res.status(this.retorno.codigoStatus || 500).json(this.retorno);
   }
 }

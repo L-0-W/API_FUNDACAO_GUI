@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { AdminBusiness } from "../business/AdminBusiness";
 import { ResponseBuilder } from "../ResponseBuilder";
+import { localizacaoAPIretorno } from "../types/tiposRetorno";
 
 export class AdminController {
   private adminBusiness = new AdminBusiness();
-  private responseBuilder = new ResponseBuilder();
+  private responseBuilder = new ResponseBuilder<localizacaoAPIretorno>();
 
   deletarExamePorId = async (req: Request, res: Response) => {
     try {

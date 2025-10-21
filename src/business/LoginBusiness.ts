@@ -4,6 +4,7 @@ import { admin } from "../types/tiposComuns";
 
 import jwt from "jsonwebtoken";
 import argon2 from "argon2";
+import { localizacaoAPIretorno } from "../types/tiposRetorno";
 
 export class LoginBusiness {
   private loginData = new LoginData();
@@ -20,7 +21,7 @@ export class LoginBusiness {
   };
 
   verificarLoginParametros = async (
-    responseBuilder: ResponseBuilder,
+    responseBuilder: ResponseBuilder<localizacaoAPIretorno>,
     email: string,
     senha: string,
   ) => {

@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import argon2 from "argon2";
 import { LIMIT_WORKER_THREADS } from "sqlite3";
 import { application } from "express";
+import { localizacaoAPIretorno } from "../types/tiposRetorno";
 
 export class AdminBusiness {
   private adminData = new AdminData();
@@ -26,7 +27,7 @@ export class AdminBusiness {
   deletarExamePorId = async (
     id: number,
     token: string,
-    responseBuilder: ResponseBuilder,
+    responseBuilder: ResponseBuilder<localizacaoAPIretorno>,
   ) => {
     try {
       const tokenFormatado = token.split("Bearer ")[1];
