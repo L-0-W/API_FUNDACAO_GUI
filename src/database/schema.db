@@ -34,13 +34,15 @@ CREATE TABLE referencias_bloco (
 
 CREATE TABLE noticias (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
-  	titulo TEXT NOT NULL,
+  	noticia_id_fundacao INTEGER NOT NULL UNIQUE,
+	titulo TEXT NOT NULL,
   	resumo TEXT NOT NULL,
     conteudo TEXT NOT NULL,
   	data_publicacao TIMESTAMP NOT NULL,
   	local_id INTEGER REFERENCES locais(id),
-	tags TEXT NOT NULL, -- JSON STRING, SQLITE3 CONSEGUE TRABALHAR COM JSON (json_extract, json_remove, json_replace, etc..),
-  	imagens TEXT NOT NULL -- JSON STRING, SQLITE3 CONSEGUE TRABALHAR COM JSON (json_extract, json_remove, json_replace, etc..),
+	tags TEXT,
+  	imagens TEXT,
+	outros_links TEXT
 );
 
 CREATE TABLE vagas (
