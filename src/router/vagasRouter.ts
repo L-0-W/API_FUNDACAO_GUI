@@ -6,4 +6,3 @@ const vagasController = new VagasController();
 
 vagasRouter.get("/", vagasController.buscarTodasVagas);
 vagasRouter.get("/:id", vagasController.buscarVagaPorId);
-vagasRouter.delete("/:id", vagasController.deletarVagaPorId);
