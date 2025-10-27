@@ -33,6 +33,16 @@ export interface referencias {
   setor: referencia;
 }
 
+export interface evento {
+  id?: number;
+  titulo?: string;
+  descricao?: string;
+  data_inicio?: number;
+  data_fim?: number;
+  status?: string;
+  publico_alvo?: string;
+}
+
 export interface noticia_DTO {
   titulo: string;
   resumo: string;

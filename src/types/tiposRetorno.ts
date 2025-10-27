@@ -1,4 +1,5 @@
 import {
+  evento,
   exame,
   noticia_DTO,
   referencias,
@@ -14,6 +15,10 @@ export interface localizacaoAPIretorno {
   andar?: string;
   coordenada?: string;
   referencias?: referencias;
+}
+
+export interface eventosAPIretorno {
+  eventos?: evento[];
 }
 
 export interface noticiaAPIretorno {
