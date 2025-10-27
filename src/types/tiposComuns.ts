@@ -45,6 +45,13 @@ export interface params_noticia {
   tags?: string[];
 }
 
+export interface exames {
+  id: number;
+  nome: string;
+  descricao: string;
+  local_id: number;
+}
+
 export enum vagasStatus {
   Ativa,
   Encerrada,

@@ -1,5 +1,6 @@
 import {
   exame,
+  exames,
   noticia_DTO,
   referencias,
   setor,
@@ -13,6 +14,10 @@ export interface localizacaoAPIretorno {
   andar?: string;
   coordenada?: string;
   referencias?: referencias;
+}
+
+export interface examesAPIretorno {
+  exame?: exames[];
 }
 
 export interface noticiaAPIretorno {
