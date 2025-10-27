@@ -44,3 +44,26 @@ export interface params_noticia {
   exame?: string;
   tags?: string[];
 }
+
+export enum vagasStatus {
+  Ativa,
+  Encerrada,
+}
+export enum vagasVinculo {
+  CLT,
+  PJ,
+  ESTAGIO,
+}
+
+export interface vagasEmprego {
+  id?: number;
+  cargo?: string;
+  resumo?: string;
+  descricao?: string;
+  requisitos?: string;
+  data_publicacao?: number;
+  data_encerramente?: number;
+  status?: vagasStatus;
+  como_se_inscrever?: string;
+  tipo_vinculo?: vagasVinculo;
+}

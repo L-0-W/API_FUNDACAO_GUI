@@ -1,4 +1,10 @@
-import { exame, noticia_DTO, referencias, setor } from "./tiposComuns";
+import {
+  exame,
+  noticia_DTO,
+  referencias,
+  setor,
+  vagasEmprego,
+} from "./tiposComuns";
 
 export interface localizacaoAPIretorno {
   exames?: exame[];
@@ -11,6 +17,10 @@ export interface localizacaoAPIretorno {
 
 export interface noticiaAPIretorno {
   noticias?: noticia_DTO[];
+}
+
+export interface vagasAPIretorno {
+  vagas?: vagasEmprego[];
 }
 
 export interface apiRetorno<T> {
