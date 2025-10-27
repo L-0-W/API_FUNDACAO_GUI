@@ -1,14 +1,42 @@
 import { connection } from "../dbConnection";
-import { exames } from "../types/tiposComuns";
+import { bloco, exame, setor } from "../types/tiposComuns";
 
 export class LocalizacaoData {
-  buscarLocalizacaoPorParametros = async (exame: string): Promise<exames[]> => {
+  buscarExames = async (exame: string): Promise<exame> => {
     try {
-      const exames = connection()
+      const exames = await connection
         .select("*")
-        .from("exame")
-        .where("nome", exame);
+        .from("exames")
+        .where("nome", exame)
+        .first();
       return exames;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+
+  buscarSetorPorId = async (setorId: number): Promise<setor> => {
+    try {
+      const setor = await connection()
+        .select("*")
+        .from("locais")
+        .where("id", setorId)
+        .first();
+      return setor;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+
+  buscarBlocoPorId = async (blocoId: number): Promise<bloco> => {
+    try {
+      const bloco = await connection()
+        .select("*")
+        .from("bloco")
+        .where("id", blocoId)
+        .first();
+
+      return bloco;
     } catch (err: any) {
       throw new Error(err);
     }

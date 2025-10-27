@@ -5,16 +5,22 @@ export interface admin {
   senha: string;
 }
 
-export interface exame {
+export interface setor {
+  id: number;
   nome: string;
+  tipo: string;
+  bloco_id: number;
+  andar: string;
+  coordenada: string;
   descricao: string;
+  ativo: boolean;
 }
 
-export interface setor {
+export interface bloco {
+  id: number;
   nome: string;
+  coordenada: string;
   descricao: string;
-  andar: string;
-  coordenadas: string;
 }
 
 interface referencia {
@@ -45,7 +51,7 @@ export interface params_noticia {
   tags?: string[];
 }
 
-export interface exames {
+export interface exame {
   id: number;
   nome: string;
   descricao: string;

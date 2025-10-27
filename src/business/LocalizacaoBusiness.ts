@@ -1,13 +1,14 @@
 import { ResponseBuilder } from "../ResponseBuilder";
 import { LocalizacaoData } from "../data/LocalizacaoData";
-import { examesAPIretorno } from "../types/tiposRetorno";
+import { bloco, setor } from "../types/tiposComuns";
+import { localizacaoAPIretorno } from "../types/tiposRetorno";
 
-export class NoticiaisBusiness {
+export class LocalizacaoBusiness {
   private localizacaoData = new LocalizacaoData();
 
   obterLocalizacaoPorParametros = async (
     exame: string,
-    responseBuilder: ResponseBuilder<examesAPIretorno>,
+    responseBuilder: ResponseBuilder<localizacaoAPIretorno>,
   ) => {
     try {
       const exameFormatado = exame.toLocaleLowerCase().trimStart().trimEnd();
@@ -23,12 +24,9 @@ export class NoticiaisBusiness {
         return;
       }
 
-      const exames =
-        await this.localizacaoData.buscarLocalizacaoPorParametros(
-          exameFormatado,
-        );
+      const exames = await this.localizacaoData.buscarExames(exameFormatado);
 
-      if (!exames || exame.length == 0) {
+      if (!exames) {
         responseBuilder.adicionarCodigoStatus(
           responseBuilder.STATUS_CODE_VAZIO,
         );
@@ -40,8 +38,44 @@ export class NoticiaisBusiness {
         return;
       }
 
+      const setor: setor = await this.localizacaoData.buscarSetorPorId(
+        exames.local_id,
+      );
+
+      if (!setor) {
+        responseBuilder.adicionarCodigoStatus(
+          responseBuilder.STATUS_CODE_SERVER_ERROR,
+        );
+
+        responseBuilder.adicionarMensagem(
+          "Erro ao tentar relacionar exame com setor..",
+        );
+
+        return;
+      }
+
+      const bloco: bloco = await this.localizacaoData.buscarBlocoPorId(
+        setor.bloco_id,
+      );
+
+      if (!bloco) {
+        responseBuilder.adicionarCodigoStatus(
+          responseBuilder.STATUS_CODE_SERVER_ERROR,
+        );
+
+        responseBuilder.adicionarMensagem(
+          "Erro ao tentar relacionar setor com bloco..",
+        );
+
+        return;
+      }
+
       responseBuilder.adicionarCodigoStatus(responseBuilder.STATUS_CODE_OK);
-      responseBuilder.adicionarBody({ exame: exames });
+      responseBuilder.adicionarBody({
+        exames: [exames],
+        setor: [setor],
+        bloco: [bloco],
+      });
 
       return;
     } catch (err: any) {

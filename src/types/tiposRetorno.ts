@@ -1,23 +1,19 @@
 import {
   exame,
-  exames,
   noticia_DTO,
   referencias,
   setor,
   vagasEmprego,
+  bloco,
 } from "./tiposComuns";
 
 export interface localizacaoAPIretorno {
   exames?: exame[];
   setor?: setor[];
-  bloco?: string;
+  bloco?: bloco[];
   andar?: string;
   coordenada?: string;
   referencias?: referencias;
-}
-
-export interface examesAPIretorno {
-  exame?: exames[];
 }
 
 export interface noticiaAPIretorno {
