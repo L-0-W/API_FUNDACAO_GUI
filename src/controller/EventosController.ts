@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ResponseBuilder } from "../ResponseBuilder";
 import { EventosBusiness } from "../business/EventosBusiness";
 import { eventosAPIretorno } from "../types/tiposRetorno";
+import { filtragemEventos } from "../types/tiposComuns";
 
 export class EventosController {
   private eventosBusiness = new EventosBusiness();
@@ -37,10 +38,37 @@ export class EventosController {
         return;
       }
 
-      const filtros = [];
+      const diasN = Number(dias);
 
-      status ? filtros.push(status.toString()) : undefined;
-      dias ? filtros.push(dias.toString()) : undefined;
+      if (dias?.length != undefined && !Number.isInteger(diasN)) {
+        this.responseBuilder.adicionarCodigoStatus(
+          this.responseBuilder.STATUS_CODE_BAD_REQUEST,
+        );
+        this.responseBuilder.adicionarMensagem(
+          "Filtro dias Precisa ser um inteiro",
+        );
+        this.responseBuilder.build(res);
+        return;
+      }
+
+      if (
+        status?.length != undefined &&
+        status.toString().trim().length === 0
+      ) {
+        this.responseBuilder.adicionarCodigoStatus(
+          this.responseBuilder.STATUS_CODE_BAD_REQUEST,
+        );
+        this.responseBuilder.adicionarMensagem(
+          "Filtro status não pode ser apenas espaços!",
+        );
+        this.responseBuilder.build(res);
+        return;
+      }
+
+      const filtros: filtragemEventos = {
+        status: status?.toString() || "Vazio",
+        dias: diasN,
+      };
 
       await this.eventosBusiness.obterEventosPorFiltragem(
         filtros,

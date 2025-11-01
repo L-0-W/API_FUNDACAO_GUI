@@ -33,6 +33,11 @@ export interface referencias {
   setor: referencia;
 }
 
+export interface filtragemEventos {
+  status?: string;
+  dias?: number;
+}
+
 export interface local {
   nome?: string;
   bloco?: string;

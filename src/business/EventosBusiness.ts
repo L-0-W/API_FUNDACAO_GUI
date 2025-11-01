@@ -1,5 +1,6 @@
 import { EventosData } from "../data/EventosData";
 import { ResponseBuilder } from "../ResponseBuilder";
+import { filtragemEventos } from "../types/tiposComuns";
 import { eventosAPIretorno } from "../types/tiposRetorno";
 
 export class EventosBusiness {
@@ -59,22 +60,10 @@ export class EventosBusiness {
   };
 
   obterEventosPorFiltragem = async (
-    filtros: string[],
+    filtros: filtragemEventos,
     responseBuilder: ResponseBuilder<eventosAPIretorno>,
   ) => {
     try {
-      const filtros_formatado = filtros.filter((e) => e.trim().length > 0);
-
-      if (filtros_formatado.length === 0) {
-        responseBuilder.adicionarCodigoStatus(
-          responseBuilder.STATUS_CODE_BAD_REQUEST,
-        );
-        responseBuilder.adicionarMensagem(
-          "E Obrigatorio que seja inserido algo nos filtros, apenas espaços não sera aceito",
-        );
-
-        return;
-      }
     } catch (err: any) {
       throw new Error(err);
     }
