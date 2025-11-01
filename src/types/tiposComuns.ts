@@ -33,6 +33,24 @@ export interface referencias {
   setor: referencia;
 }
 
+export interface local {
+  nome?: string;
+  bloco?: string;
+  setor?: string;
+  andar?: string;
+  coordenada?: string;
+  referencias?: {
+    bloco: {
+      imagem: string[];
+      descricao: string[];
+    };
+    setor: {
+      imagem: string[];
+      descricao: string[];
+    };
+  };
+}
+
 export interface evento {
   id?: number;
   titulo?: string;
