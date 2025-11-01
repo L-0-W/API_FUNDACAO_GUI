@@ -33,8 +33,15 @@ export interface referencias {
   setor: referencia;
 }
 
+export enum filtragemEventosStatus {
+  Futuros = "futuros",
+  Em_Andamento = "em_andamento",
+  Encerrado = "encerrado",
+  Vazio = "",
+}
+
 export interface filtragemEventos {
-  status?: string;
+  status?: filtragemEventosStatus | string;
   dias?: number;
 }
 

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ResponseBuilder } from "../ResponseBuilder";
 import { EventosBusiness } from "../business/EventosBusiness";
 import { eventosAPIretorno } from "../types/tiposRetorno";
-import { filtragemEventos } from "../types/tiposComuns";
+import { filtragemEventos, filtragemEventosStatus } from "../types/tiposComuns";
 
 export class EventosController {
   private eventosBusiness = new EventosBusiness();
@@ -77,7 +77,7 @@ export class EventosController {
       }
 
       const filtros: filtragemEventos = {
-        status: status?.toString() || "",
+        status: status?.toString() || filtragemEventosStatus.Vazio,
         dias: diasN,
       };
 
@@ -85,6 +85,8 @@ export class EventosController {
         filtros,
         this.responseBuilder,
       );
+
+      this.responseBuilder.build(res);
     } catch (err: any) {
       this.responseBuilder.adicionarCodigoStatus(
         this.responseBuilder.STATUS_CODE_SERVER_ERROR,

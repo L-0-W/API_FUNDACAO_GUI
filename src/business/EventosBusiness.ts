@@ -1,7 +1,7 @@
 import { toUnicode } from "node:punycode";
 import { EventosData } from "../data/EventosData";
 import { ResponseBuilder } from "../ResponseBuilder";
-import { filtragemEventos } from "../types/tiposComuns";
+import { filtragemEventos, filtragemEventosStatus } from "../types/tiposComuns";
 import { eventosAPIretorno } from "../types/tiposRetorno";
 
 export class EventosBusiness {
@@ -66,7 +66,38 @@ export class EventosBusiness {
   ) => {
     try {
       filtros.status = filtros.status?.replaceAll("'", "") || "";
-      console.log(filtros);
+
+      if (filtros.status) {
+        switch (filtros.status) {
+          case filtragemEventosStatus.Futuros:
+            break;
+          case filtragemEventosStatus.Em_Andamento:
+            break;
+          case filtragemEventosStatus.Encerrado:
+            break;
+          case filtragemEventosStatus.Vazio:
+            responseBuilder.adicionarCodigoStatus(
+              responseBuilder.STATUS_CODE_BAD_REQUEST,
+            );
+            responseBuilder.adicionarMensagem(
+              "Filtro de status precisa esta entre futuros | em_andamento | encerrado",
+            );
+            return;
+            break;
+          default:
+            responseBuilder.adicionarCodigoStatus(
+              responseBuilder.STATUS_CODE_BAD_REQUEST,
+            );
+            responseBuilder.adicionarMensagem(
+              "Filtro de status precisa esta entre futuros | em_andamento | encerrado",
+            );
+            return;
+            break;
+        }
+      }
+      const filtro = Object.values(filtros).filter((e) => e);
+
+      this.eventosData.buscarEventoPorFiltro(filtro);
     } catch (err: any) {
       throw new Error(err);
     }
