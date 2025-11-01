@@ -57,4 +57,26 @@ export class EventosBusiness {
       throw new Error(err);
     }
   };
+
+  obterEventosPorFiltragem = async (
+    filtros: string[],
+    responseBuilder: ResponseBuilder<eventosAPIretorno>,
+  ) => {
+    try {
+      const filtros_formatado = filtros.filter((e) => e.trim().length > 0);
+
+      if (filtros_formatado.length === 0) {
+        responseBuilder.adicionarCodigoStatus(
+          responseBuilder.STATUS_CODE_BAD_REQUEST,
+        );
+        responseBuilder.adicionarMensagem(
+          "E Obrigatorio que seja inserido algo nos filtros, apenas espaços não sera aceito",
+        );
+
+        return;
+      }
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
 }

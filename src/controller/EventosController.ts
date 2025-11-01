@@ -21,6 +21,41 @@ export class EventosController {
     }
   };
 
+  buscarEventosPorQuery = async (req: Request, res: Response) => {
+    try {
+      const { status, dias } = req.query;
+
+      if (!status && !dias) {
+        this.responseBuilder.adicionarCodigoStatus(
+          this.responseBuilder.STATUS_CODE_BAD_REQUEST,
+        );
+        this.responseBuilder.adicionarMensagem(
+          "E Obrigatorio inserir pelo menos 1 dos filtros para pesquisa",
+        );
+        this.responseBuilder.build(res);
+
+        return;
+      }
+
+      const filtros = [];
+
+      status ? filtros.push(status.toString()) : undefined;
+      dias ? filtros.push(dias.toString()) : undefined;
+
+      await this.eventosBusiness.obterEventosPorFiltragem(
+        filtros,
+        this.responseBuilder,
+      );
+    } catch (err: any) {
+      this.responseBuilder.adicionarCodigoStatus(
+        this.responseBuilder.STATUS_CODE_SERVER_ERROR,
+      );
+
+      this.responseBuilder.adicionarMensagem(err.sqlMessage || err.message);
+      this.responseBuilder.build(res);
+    }
+  };
+
   pegarEventoPorId = async (req: Request, res: Response) => {
     try {
       const eventoId = Number(req.params.id);
