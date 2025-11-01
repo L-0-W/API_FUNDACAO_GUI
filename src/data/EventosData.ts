@@ -1,3 +1,4 @@
+import { get } from "node:https";
 import { connection } from "../dbConnection";
 import { evento, filtragemEventos } from "../types/tiposComuns";
 
@@ -23,8 +24,29 @@ export class EventosData {
       throw new Error(err);
     }
   };
-  buscarEventoPorFiltro = (filtros: string[]) => {
+  buscarEventoPorFiltro = async (filtros: string[]): Promise<evento[]> => {
     try {
+      const dataAtual = Date.now();
+
+      const evento = await connection
+        .select("*")
+        .from("eventos")
+        .where((builder) => {
+          filtros.forEach((e) => {
+            typeof e === "number"
+              ? builder
+                  .andWhere("data_inicio", "<=", e)
+                  .andWhere("data_fim", ">=", dataAtual)
+              : undefined;
+            typeof e === "string"
+              ? builder.andWhere("status", "LIKE", e)
+              : undefined;
+
+            console.log(e);
+          });
+        });
+
+      return evento;
     } catch (err: any) {
       throw new Error(err);
     }

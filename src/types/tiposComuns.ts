@@ -34,9 +34,10 @@ export interface referencias {
 }
 
 export enum filtragemEventosStatus {
-  Futuros = "futuros",
+  Concluido = "concluido",
   Em_Andamento = "em_andamento",
   Encerrado = "encerrado",
+  Cancelado = "cancelado",
   Vazio = "",
 }
 

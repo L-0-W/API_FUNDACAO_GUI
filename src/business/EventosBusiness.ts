@@ -3,6 +3,7 @@ import { EventosData } from "../data/EventosData";
 import { ResponseBuilder } from "../ResponseBuilder";
 import { filtragemEventos, filtragemEventosStatus } from "../types/tiposComuns";
 import { eventosAPIretorno } from "../types/tiposRetorno";
+import { transformarDataEmTimeStamp } from "../utils/utilsTempo";
 
 export class EventosBusiness {
   private eventosData = new EventosData();
@@ -69,11 +70,13 @@ export class EventosBusiness {
 
       if (filtros.status) {
         switch (filtros.status) {
-          case filtragemEventosStatus.Futuros:
+          case filtragemEventosStatus.Concluido:
             break;
           case filtragemEventosStatus.Em_Andamento:
             break;
           case filtragemEventosStatus.Encerrado:
+            break;
+          case filtragemEventosStatus.Cancelado:
             break;
           case filtragemEventosStatus.Vazio:
             responseBuilder.adicionarCodigoStatus(
@@ -95,9 +98,15 @@ export class EventosBusiness {
             break;
         }
       }
-      const filtro = Object.values(filtros).filter((e) => e);
 
-      this.eventosData.buscarEventoPorFiltro(filtro);
+      if (filtros.dias) {
+        filtros.dias = transformarDataEmTimeStamp(filtros.dias);
+      }
+
+      const filtro = Object.values(filtros).filter((e) => e);
+      const eventos = await this.eventosData.buscarEventoPorFiltro(filtro);
+
+      console.log(eventos);
     } catch (err: any) {
       throw new Error(err);
     }
