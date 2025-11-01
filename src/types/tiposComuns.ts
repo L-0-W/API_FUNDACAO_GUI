@@ -58,6 +58,7 @@ export interface evento {
   data_inicio?: number;
   data_fim?: number;
   status?: string;
+  local?: local;
   publico_alvo?: string;
 }
 
