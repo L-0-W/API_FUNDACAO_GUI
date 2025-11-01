@@ -38,14 +38,12 @@ export class EventosController {
         return;
       }
 
-      const diasN = Number(dias);
-
-      if (dias?.length != undefined && !Number.isInteger(diasN)) {
+      if (dias?.length != undefined && dias.toString().trim().length === 0) {
         this.responseBuilder.adicionarCodigoStatus(
           this.responseBuilder.STATUS_CODE_BAD_REQUEST,
         );
         this.responseBuilder.adicionarMensagem(
-          "Filtro dias Precisa ser um inteiro",
+          "Filtro dias não pode ser apenas espaços ou estar vazio!",
         );
         this.responseBuilder.build(res);
         return;
@@ -59,14 +57,27 @@ export class EventosController {
           this.responseBuilder.STATUS_CODE_BAD_REQUEST,
         );
         this.responseBuilder.adicionarMensagem(
-          "Filtro status não pode ser apenas espaços!",
+          "Filtro status não pode ser apenas espaços ou estar vazio!",
+        );
+        this.responseBuilder.build(res);
+        return;
+      }
+
+      const diasN = Number(dias);
+
+      if (dias?.length != undefined && !Number.isInteger(diasN)) {
+        this.responseBuilder.adicionarCodigoStatus(
+          this.responseBuilder.STATUS_CODE_BAD_REQUEST,
+        );
+        this.responseBuilder.adicionarMensagem(
+          "Filtro dias Precisa ser um inteiro",
         );
         this.responseBuilder.build(res);
         return;
       }
 
       const filtros: filtragemEventos = {
-        status: status?.toString() || "Vazio",
+        status: status?.toString() || "",
         dias: diasN,
       };
 

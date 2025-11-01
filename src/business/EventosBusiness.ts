@@ -1,3 +1,4 @@
+import { toUnicode } from "node:punycode";
 import { EventosData } from "../data/EventosData";
 import { ResponseBuilder } from "../ResponseBuilder";
 import { filtragemEventos } from "../types/tiposComuns";
@@ -64,6 +65,8 @@ export class EventosBusiness {
     responseBuilder: ResponseBuilder<eventosAPIretorno>,
   ) => {
     try {
+      filtros.status = filtros.status?.replaceAll("'", "") || "";
+      console.log(filtros);
     } catch (err: any) {
       throw new Error(err);
     }
