@@ -41,8 +41,19 @@ export class EventosData {
             typeof e === "string"
               ? builder.andWhere("status", "LIKE", e)
               : undefined;
+            typeof e === "object"
+              ? builder.andWhere((builder2) => {
+                  const tag = e as string[];
 
-            console.log(e);
+                  tag.forEach((el) => {
+                    console.log(el);
+                    builder2
+                      .orWhereLike("titulo", `%${el}%`)
+                      .orWhereLike("descricao", `%${el}%`)
+                      .orWhereLike("publico_alvo", `%${el}%`);
+                  });
+                })
+              : undefined;
           });
         });
 

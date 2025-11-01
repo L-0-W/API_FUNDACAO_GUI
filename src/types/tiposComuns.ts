@@ -43,6 +43,7 @@ export enum filtragemEventosStatus {
 
 export interface filtragemEventos {
   status?: filtragemEventosStatus | string;
+  tags?: string | string[];
   dias?: number;
 }
 

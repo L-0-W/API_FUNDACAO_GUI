@@ -24,9 +24,9 @@ export class EventosController {
 
   buscarEventosPorQuery = async (req: Request, res: Response) => {
     try {
-      const { status, dias } = req.query;
+      const { status, dias, tags } = req.query;
 
-      if (!status && !dias) {
+      if (!status && !dias && !tags) {
         this.responseBuilder.adicionarCodigoStatus(
           this.responseBuilder.STATUS_CODE_BAD_REQUEST,
         );
@@ -44,6 +44,17 @@ export class EventosController {
         );
         this.responseBuilder.adicionarMensagem(
           "Filtro dias não pode ser apenas espaços ou estar vazio!",
+        );
+        this.responseBuilder.build(res);
+        return;
+      }
+
+      if (tags?.length != undefined && tags.toString().trim().length === 0) {
+        this.responseBuilder.adicionarCodigoStatus(
+          this.responseBuilder.STATUS_CODE_BAD_REQUEST,
+        );
+        this.responseBuilder.adicionarMensagem(
+          "Filtro tags não pode ser apenas espaços ou estar vazio!",
         );
         this.responseBuilder.build(res);
         return;
@@ -79,6 +90,7 @@ export class EventosController {
       const filtros: filtragemEventos = {
         status: status?.toString() || filtragemEventosStatus.Vazio,
         dias: diasN,
+        tags: tags?.toString().replaceAll("'", "") || "",
       };
 
       await this.eventosBusiness.obterEventosPorFiltragem(
